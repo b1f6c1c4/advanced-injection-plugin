@@ -1,0 +1,17 @@
+{
+  "name": "advanced-injection-plugin-example",
+  "version": "0.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "node ./build.js"
+  },
+  "author": "b1f6c1c4 <b1f6c1c4@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "css-loader": "^0.28.10",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "html-webpack-plugin": "^3.0.0",
+    "webpack": "^4.0.0"
+  }
+}
