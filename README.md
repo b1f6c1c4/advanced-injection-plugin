@@ -1,0 +1,22 @@
+# advanced-injection-plugin
+
+> Versatile asset injection for html-webpack-plugin.
+
+This package helps you fully control the injection process for html-webpack-plugin.
+
+## Pre-requisites
+
+This module requires webpack 4 and html-webpack-plugin 3.
+
+## Installation
+
+```sh
+$ yarn add --dev advanced-injection-plugin
+```
+## Usage
+
+> For a complete working demo, see the `example` folder.
+
+## License
+
+MIT
