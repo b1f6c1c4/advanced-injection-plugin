@@ -2,12 +2,18 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 // const AdvancedInjectionPlugin = require('advanced-injection-plugin');
-const AdvancedInjectionPlugin = require('../');
+const {
+  AdvancedInjectionPlugin,
+  Prefetch,
+  Preload,
+  AsyncCss,
+} = require('../');
 
 const compiler = webpack({
   mode: 'development', // This is for debug/test purpose
   entry: {
     main: ['index'],
+    next: ['index'],
   },
   resolve: {
     modules: ['src', 'node_modules'],
@@ -42,7 +48,16 @@ const compiler = webpack({
       minify: false, // This is for debug/test purpose, turn it on in production
       template: 'src/index.html',
     }),
-    // new AdvancedInjectionPlugin({}),
+    new AdvancedInjectionPlugin({
+      rules: [{
+        match: 'index.html', // RegExp /^index\.html$/ also works here
+        head: [
+          new AsyncCss(/^vender.*\.css$/, {}),
+          new Preload(/^main.*\.js/, { as: 'script' }),
+          new Prefetch(/^next.*\.js/, {}),
+        ],
+      }],
+    }),
   ],
 });
 

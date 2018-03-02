@@ -3,6 +3,10 @@
   <head>
     <meta charset="UTF-8">
     <title>The title</title>
+    <link rel="preload" as="style" href="/vender.css" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" as="script" href="/main.js">
+    <link rel="prefetch" href="/next.js">
+    <script>CSSRELPRELOAD_MIN_JS</script>
   </head>
   <body>
     <h1>The content</h1>

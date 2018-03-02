@@ -13,11 +13,12 @@ const loadFile = (filename) => new Promise((resolve, reject) => {
 
 describe('example', () => {
   it('should output index.html', async (done) => {
-    const [act, exp] = await Promise.all([
+    const [act, exp, cssPreload] = await Promise.all([
       loadFile('./example/dist/index.html'),
       loadFile('./example_output/index.html'),
+      loadFile('./node_modules/fg-loadcss/dist/cssrelpreload.min.js'),
     ]);
-    expect(act).toEqual(exp);
+    expect(act).toEqual(exp.replace('CSSRELPRELOAD_MIN_JS', cssPreload));
     done();
   });
 });

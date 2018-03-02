@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const PatternBase = require('./PatternBase');
+const AsyncCss = require('./AsyncCss');
 const Prefetch = require('./Prefetch');
 const Preload = require('./Preload');
 
@@ -20,7 +21,7 @@ class AdvancedInjectionPlugin {
   }
 
   gatherEmits(indent, emits) {
-    const res = _.falttenDeep(emits).map((e) => {
+    const res = _.flattenDeep(emits).filter(_.identity).map((e) => {
       const spaces = ' '.repeat(indent);
       return e
         .replace(/^(<[a-z]+|<!--)/, `${spaces}$1`)
@@ -48,14 +49,21 @@ class AdvancedInjectionPlugin {
         if (!obj) return;
 
         const make = (indent) => {
-          const emits = _.flatten(obj.map((p) => p.apply(compilation, filename)));
+          const emits = _.flatten([
+            obj.map((p) => p.apply(compilation, filename)),
+            obj.map((p) => p.finalEmit()),
+          ]);
           return this.gatherEmits(indent, emits);
         };
 
         const reg0 = new RegExp(`\n( *)${pat}`);
         if (reg0.test(html)) {
           html = html.replace(reg0, (m, indent) => {
-            const str = make(indent.length);
+            let diff = 0;
+            if (pat.startsWith('</')) {
+              diff = +2;
+            }
+            const str = make(indent.length + diff);
             if (!str) return m;
             return `\n${str}\n${indent}${pat}`;
           });
@@ -76,6 +84,7 @@ class AdvancedInjectionPlugin {
       inject('</head>', head);
       inject('</body>', body);
       _.toPairs(other).forEach((p) => inject(...p));
+      _.set(htmlPluginData, 'html', html);
     });
   }
 }
@@ -84,6 +93,7 @@ module.exports = {
   default: AdvancedInjectionPlugin,
   AdvancedInjectionPlugin,
   PatternBase,
+  AsyncCss,
   Prefetch,
   Preload,
 };

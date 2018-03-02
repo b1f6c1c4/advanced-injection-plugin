@@ -9,9 +9,9 @@ class PatternBase {
   apply(compilation, filename) {
     const assetNames = this.filter.apply(compilation);
     const results = [];
-    const path = compilation.outputOptions.publicPath;
+    const path = compilation.outputOptions.publicPath || '/';
     assetNames.forEach((n) => {
-      const res = this.emit(path + n, compilation.asset[n], n, filename);
+      const res = this.emit(path + n, compilation.assets[n], n, filename);
       if (_.isArray(res)) {
         results.push(...res);
       } else if (res) {
