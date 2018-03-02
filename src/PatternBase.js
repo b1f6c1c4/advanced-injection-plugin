@@ -15,11 +15,12 @@ class PatternBase {
       if (_.isArray(res)) {
         results.push(...res);
       } else if (res) {
-        result.push(res);
+        results.push(res);
       }
     });
   }
 
+  // eslint-disable-next-line no-unused-vars
   emit(entry, asset, name) {
     // To be overriden
     return `<!-- ${name} -->`;
