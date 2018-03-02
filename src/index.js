@@ -1,10 +1,11 @@
+const _ = require('lodash');
 const PatternBase = require('./PatternBase');
 const Prefetch = require('./Prefetch');
 const Preload = require('./Preload');
 
 class AdvancedInjectionPlugin {
-  constructor(options) {
-    this.options = options;
+  constructor({ rules }) {
+    this.rules = rules || [];
   }
 
   apply(compiler) {
@@ -18,9 +19,64 @@ class AdvancedInjectionPlugin {
     });
   }
 
+  gatherEmits(indent, emits) {
+    const res = _.falttenDeep(emits).map((e) => {
+      const spaces = ' '.repeat(indent);
+      return e
+        .replace(/^(<[a-z]+|<!--)/, `${spaces}$1`)
+        .replace(/\n *(<\/[a-z]+>|-->)$/, `\n${spaces}$1`);
+    });
+    return res.join('\n');
+  }
+
   // eslint-disable-next-line no-unused-vars
   beforeHtmlProcessing(compilation, htmlPluginData) {
-    // TODO
+    const { filename } = htmlPluginData.plugin.options;
+    this.rules.forEach(({ match, head, body, ...other }) => {
+      if (_.isString(match)) {
+        if (match !== filename) return;
+      } else if (_.isArray(match)) {
+        if (!match.includes(filename)) return;
+      } else {
+        // eslint-disable-next-line no-lonely-if
+        if (!match.test(filename)) return;
+      }
+
+      let { html } = htmlPluginData;
+
+      const inject = (pat, obj) => {
+        if (!obj) return;
+
+        const make = (indent) => {
+          const emits = _.flatten(obj.map((p) => p.apply(compilation, filename)));
+          return this.gatherEmits(indent, emits);
+        };
+
+        const reg0 = new RegExp(`\n( *)${pat}`);
+        if (reg0.test(html)) {
+          html = html.replace(reg0, (m, indent) => {
+            const str = make(indent.length);
+            if (!str) return m;
+            return `\n${str}\n${indent}${pat}`;
+          });
+          return;
+        }
+        const reg1 = new RegExp(pat);
+        if (reg1.test(html)) {
+          html = html.replace(reg1, (m) => {
+            const str = make(0);
+            if (!str) return m;
+            return `${str}\n${m}`;
+          });
+          return;
+        }
+        html += make(0);
+      };
+
+      inject('</head>', head);
+      inject('</body>', body);
+      _.toPairs(other).forEach((p) => inject(...p));
+    });
   }
 }
 
