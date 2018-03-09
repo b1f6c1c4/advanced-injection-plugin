@@ -54,12 +54,20 @@ const compiler = webpack({
       rules: [{
         match: 'index.html', // RegExp /^index\.html$/ also works here
         head: [
-          new AsyncCss(/^vender.*\.css$/),
+          new AsyncCss(/^vender.*\.css$/, {
+            finalAttr: {
+              type: null,
+            },
+          }),
           new Preload(/^main.*\.js$/, { as: 'script' }),
           new Prefetch(/^next.*\.js$/),
           // It's (technically) possible to include same asset twice
           new Css(/^vender.*\.css/),
-          new InlineJs(/^main.*\.js$/),
+          new InlineJs(/^main.*\.js$/, {
+            attr: {
+              defer: true,
+            },
+          }),
         ],
       }],
     }),

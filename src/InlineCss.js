@@ -1,12 +1,17 @@
 const PatternBase = require('./PatternBase');
+const makeAttr = require('./makeAttr');
 
 class InlineCss extends PatternBase {
-  constructor(filter, { ...other } = {}) {
+  constructor(filter, { attr, ...other } = {}) {
     super(filter, { other });
+    this.attr = attr;
   }
 
   emit(entry, asset) {
-    return `<style type="text/css">
+    const attr = makeAttr({
+      type: 'text/css',
+    }, this.attr);
+    return `<style${attr}>
 ${asset.source()}
 </style>`;
   }

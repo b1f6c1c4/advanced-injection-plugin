@@ -1,12 +1,18 @@
 const PatternBase = require('./PatternBase');
+const makeAttr = require('./makeAttr');
 
 class Js extends PatternBase {
-  constructor(filter, { ...other } = {}) {
+  constructor(filter, { attr, ...other } = {}) {
     super(filter, { other });
+    this.attr = attr;
   }
 
   emit(entry) {
-    return `<script href="${entry}" type="application/javascript"></script>`;
+    const attr = makeAttr({
+      href: entry,
+      type: 'application/javascript',
+    }, this.attr);
+    return `<script${attr}></script>`;
   }
 }
 

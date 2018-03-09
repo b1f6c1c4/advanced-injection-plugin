@@ -1,12 +1,17 @@
 const PatternBase = require('./PatternBase');
+const makeAttr = require('./makeAttr');
 
 class InlineJs extends PatternBase {
-  constructor(filter, { ...other } = {}) {
+  constructor(filter, { attr, ...other } = {}) {
     super(filter, { other });
+    this.attr = attr;
   }
 
   emit(entry, asset) {
-    return `<script type="application/javascript">
+    const attr = makeAttr({
+      type: 'application/javascript',
+    }, this.attr);
+    return `<script${attr}>
 ${asset.source()}
 </script>`;
   }

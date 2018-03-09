@@ -1,12 +1,18 @@
 const PatternBase = require('./PatternBase');
+const makeAttr = require('./makeAttr');
 
 class Css extends PatternBase {
-  constructor(filter, { ...other } = {}) {
+  constructor(filter, { attr, ...other } = {}) {
     super(filter, { other });
+    this.attr = attr;
   }
 
   emit(entry) {
-    return `<style href="${entry}" type="text/css"></style>`;
+    const attr = makeAttr({
+      href: entry,
+      type: 'text/css',
+    }, this.attr);
+    return `<style${attr}></style>`;
   }
 }
 
