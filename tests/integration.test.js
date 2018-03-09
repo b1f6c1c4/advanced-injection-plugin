@@ -16,7 +16,7 @@ describe('example', () => {
     const [act, exp, cssPreload, mainJs] = await Promise.all([
       loadFile('./example/dist/index.html'),
       loadFile('./example_output/index.html'),
-      loadFile('./node_modules/fg-loadcss/dist/cssrelpreload.min.js'),
+      loadFile('./example/node_modules/fg-loadcss/dist/cssrelpreload.min.js'),
       loadFile('./example/dist/main.js'),
     ]);
     let exps = exp;

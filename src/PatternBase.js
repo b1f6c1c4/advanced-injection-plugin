@@ -26,11 +26,6 @@ class PatternBase {
     // To be overriden
     return `<!-- ${name} -->`;
   }
-
-  finalEmit() {
-    // To be overriden
-    return undefined;
-  }
 }
 
 module.exports = PatternBase;

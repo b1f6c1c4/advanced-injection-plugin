@@ -58,10 +58,7 @@ class AdvancedInjectionPlugin {
         if (!obj) return;
 
         const make = (indent) => {
-          const emits = _.flatten([
-            obj.map((p) => p.apply(compilation, filename, pf)),
-            obj.map((p) => p.finalEmit()),
-          ]);
+          const emits = obj.map((p) => p.apply(compilation, filename, pf));
           return this.gatherEmits(indent, emits);
         };
 

@@ -14,6 +14,8 @@ const {
 const compiler = webpack({
   mode: 'development', // This is for debug/test purpose
   entry: {
+    // Useless entry, only to get the file
+    mock: ['file-loader?name=[name].[ext]!fg-loadcss/dist/cssrelpreload.min.js'],
     main: ['index'],
     next: ['index'],
   },
@@ -54,11 +56,7 @@ const compiler = webpack({
       rules: [{
         match: 'index.html', // RegExp /^index\.html$/ also works here
         head: [
-          new AsyncCss(/^vender.*\.css$/, {
-            finalAttr: {
-              type: null,
-            },
-          }),
+          new AsyncCss(/^vender.*\.css$/),
           new Preload(/^main.*\.js$/, { as: 'script' }),
           new Prefetch(/^next.*\.js$/),
           // It's (technically) possible to include same asset twice
@@ -66,6 +64,11 @@ const compiler = webpack({
           new InlineJs(/^main.*\.js$/, {
             attr: {
               defer: true,
+            },
+          }),
+          new InlineJs('cssrelpreload.min.js', {
+            attr: {
+              type: null,
             },
           }),
         ],
