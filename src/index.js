@@ -10,7 +10,8 @@ const Prefetch = require('./Prefetch');
 const Preload = require('./Preload');
 
 class AdvancedInjectionPlugin {
-  constructor({ rules } = {}) {
+  constructor({ prefix, rules } = {}) {
+    this.prefix = prefix;
     this.rules = rules || [];
   }
 
@@ -38,10 +39,18 @@ class AdvancedInjectionPlugin {
   // eslint-disable-next-line no-unused-vars
   beforeHtmlProcessing(compilation, htmlPluginData) {
     const { filename } = htmlPluginData.plugin.options;
-    this.rules.forEach(({ match: matchHtml, head, body, ...other }) => {
+    this.rules.forEach(({
+      match: matchHtml,
+      prefix,
+      head,
+      body,
+      ...other
+    }) => {
       if (!match(matchHtml, filename)) {
         return;
       }
+
+      const pf = prefix || this.prefix;
 
       let { html } = htmlPluginData;
 
@@ -50,7 +59,7 @@ class AdvancedInjectionPlugin {
 
         const make = (indent) => {
           const emits = _.flatten([
-            obj.map((p) => p.apply(compilation, filename)),
+            obj.map((p) => p.apply(compilation, filename, pf)),
             obj.map((p) => p.finalEmit()),
           ]);
           return this.gatherEmits(indent, emits);

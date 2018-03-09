@@ -7,17 +7,17 @@ class AssetFilter {
     this.prefix = prefix;
   }
 
-  match(name) {
+  match(name, prefix = this.prefix) {
     let n = name;
-    if (this.prefix && n.startsWith(this.prefix)) {
-      n = n.substr(this.prefix.length);
+    if (prefix && n.startsWith(prefix)) {
+      n = n.substr(prefix.length);
     }
 
     return match(this.filter, n);
   }
 
-  apply({ assets }) {
-    return _.keys(assets).filter((a) => this.match(a));
+  apply({ assets }, ...args) {
+    return _.keys(assets).filter((a) => this.match(a, ...args));
   }
 }
 

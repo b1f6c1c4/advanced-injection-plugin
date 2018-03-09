@@ -6,8 +6,8 @@ class PatternBase {
     this.filter = new AssetFilter(filter, { other });
   }
 
-  apply(compilation, filename) {
-    const assetNames = this.filter.apply(compilation);
+  apply(compilation, filename, ...args) {
+    const assetNames = this.filter.apply(compilation, ...args);
     const results = [];
     const path = compilation.outputOptions.publicPath || '/';
     assetNames.forEach((n) => {
