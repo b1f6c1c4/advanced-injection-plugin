@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const match = require('./match');
 
 class AssetFilter {
   constructor(filter, { prefix } = {}) {
@@ -12,17 +13,7 @@ class AssetFilter {
       n = n.substr(this.prefix.length);
     }
 
-    function rawMatch(filter) {
-      if (_.isString(filter)) {
-        return n === filter;
-      }
-      if (_.isArray(filter)) {
-        return _.some(filter, (f) => rawMatch(f));
-      }
-      return filter.test(n);
-    }
-
-    return rawMatch(this.filter);
+    return match(this.filter, n);
   }
 
   apply({ assets }) {

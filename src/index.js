@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const match = require('./match');
 const PatternBase = require('./PatternBase');
 const AsyncCss = require('./AsyncCss');
 const Prefetch = require('./Prefetch');
@@ -33,14 +34,9 @@ class AdvancedInjectionPlugin {
   // eslint-disable-next-line no-unused-vars
   beforeHtmlProcessing(compilation, htmlPluginData) {
     const { filename } = htmlPluginData.plugin.options;
-    this.rules.forEach(({ match, head, body, ...other }) => {
-      if (_.isString(match)) {
-        if (match !== filename) return;
-      } else if (_.isArray(match)) {
-        if (!match.includes(filename)) return;
-      } else {
-        // eslint-disable-next-line no-lonely-if
-        if (!match.test(filename)) return;
+    this.rules.forEach(({ match: matchHtml, head, body, ...other }) => {
+      if (!match(matchHtml, filename)) {
+        return;
       }
 
       let { html } = htmlPluginData;
