@@ -1,7 +1,7 @@
 const PatternBase = require('./PatternBase');
 
 class Prefetch extends PatternBase {
-  constructor(filter, { ...other }) {
+  constructor(filter, { ...other } = {}) {
     super(filter, { other });
   }
 

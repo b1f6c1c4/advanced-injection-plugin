@@ -3,7 +3,7 @@ const path = require('path');
 const PatternBase = require('./PatternBase');
 
 class AsyncCss extends PatternBase {
-  constructor(filter, { ...other }) {
+  constructor(filter, { ...other } = {}) {
     super(filter, { other });
     this.cssPreload = fs.readFileSync(path.join(__dirname, '../node_modules/fg-loadcss/dist/cssrelpreload.min.js'), 'utf-8');
   }

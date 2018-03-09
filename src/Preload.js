@@ -1,7 +1,7 @@
 const PatternBase = require('./PatternBase');
 
 class Preload extends PatternBase {
-  constructor(filter, { as, ...other }) {
+  constructor(filter, { as, ...other } = {}) {
     super(filter, { other });
     this.as = as;
   }

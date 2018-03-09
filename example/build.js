@@ -52,9 +52,9 @@ const compiler = webpack({
       rules: [{
         match: 'index.html', // RegExp /^index\.html$/ also works here
         head: [
-          new AsyncCss(/^vender.*\.css$/, {}),
+          new AsyncCss(/^vender.*\.css$/),
           new Preload(/^main.*\.js/, { as: 'script' }),
-          new Prefetch(/^next.*\.js/, {}),
+          new Prefetch(/^next.*\.js/),
         ],
       }],
     }),

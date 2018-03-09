@@ -1,7 +1,7 @@
 const _ = require('lodash');
 
 class AssetFilter {
-  constructor(filter, { prefix }) {
+  constructor(filter, { prefix } = {}) {
     this.filter = filter;
     this.prefix = prefix;
   }

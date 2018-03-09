@@ -5,7 +5,7 @@ const Prefetch = require('./Prefetch');
 const Preload = require('./Preload');
 
 class AdvancedInjectionPlugin {
-  constructor({ rules }) {
+  constructor({ rules } = {}) {
     this.rules = rules || [];
   }
 
