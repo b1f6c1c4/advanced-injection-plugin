@@ -6,7 +6,9 @@ const {
   AdvancedInjectionPlugin,
   Prefetch,
   Preload,
+  Css,
   AsyncCss,
+  InlineJs,
 } = require('../');
 
 const compiler = webpack({
@@ -53,8 +55,11 @@ const compiler = webpack({
         match: 'index.html', // RegExp /^index\.html$/ also works here
         head: [
           new AsyncCss(/^vender.*\.css$/),
-          new Preload(/^main.*\.js/, { as: 'script' }),
-          new Prefetch(/^next.*\.js/),
+          new Preload(/^main.*\.js$/, { as: 'script' }),
+          new Prefetch(/^next.*\.js$/),
+          // It's (technically) possible to include same asset twice
+          new Css(/^vender.*\.css/),
+          new InlineJs(/^main.*\.js$/),
         ],
       }],
     }),

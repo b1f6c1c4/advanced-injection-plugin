@@ -13,12 +13,16 @@ const loadFile = (filename) => new Promise((resolve, reject) => {
 
 describe('example', () => {
   it('should output index.html', async (done) => {
-    const [act, exp, cssPreload] = await Promise.all([
+    const [act, exp, cssPreload, mainJs] = await Promise.all([
       loadFile('./example/dist/index.html'),
       loadFile('./example_output/index.html'),
       loadFile('./node_modules/fg-loadcss/dist/cssrelpreload.min.js'),
+      loadFile('./example/dist/main.js'),
     ]);
-    expect(act).toEqual(exp.replace('CSSRELPRELOAD_MIN_JS', cssPreload));
+    let exps = exp;
+    exps = exps.replace('CSSRELPRELOAD_MIN_JS', cssPreload);
+    exps = exps.replace('MAIN_JS', mainJs);
+    expect(act).toEqual(exps);
     done();
   });
 });

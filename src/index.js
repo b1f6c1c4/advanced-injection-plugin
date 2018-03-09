@@ -2,6 +2,10 @@ const _ = require('lodash');
 const match = require('./match');
 const PatternBase = require('./PatternBase');
 const AsyncCss = require('./AsyncCss');
+const Css = require('./Css');
+const InlineCss = require('./InlineCss');
+const Js = require('./Js');
+const InlineJs = require('./InlineJs');
 const Prefetch = require('./Prefetch');
 const Preload = require('./Preload');
 
@@ -89,7 +93,11 @@ module.exports = {
   default: AdvancedInjectionPlugin,
   AdvancedInjectionPlugin,
   PatternBase,
+  Css,
   AsyncCss,
+  InlineCss,
+  Js,
+  InlineJs,
   Prefetch,
   Preload,
 };
