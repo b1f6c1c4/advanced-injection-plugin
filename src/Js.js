@@ -9,7 +9,7 @@ class Js extends PatternBase {
 
   emit(entry) {
     const attr = makeAttr({
-      href: entry,
+      src: entry,
       type: 'application/javascript',
     }, this.attr);
     return `<script${attr}></script>`;
