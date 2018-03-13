@@ -1,5 +1,7 @@
 # advanced-injection-plugin
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/b1f6c1c4/advanced-injection-plugin.svg)](https://greenkeeper.io/)
+
 > Versatile asset injection for html-webpack-plugin.
 
 This package helps you fully control the injection process for html-webpack-plugin.
