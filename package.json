@@ -1,6 +1,6 @@
 {
   "name": "advanced-injection-plugin",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Versatile asset injection for html-webpack-plugin.",
   "main": "src/index.js",
   "scripts": {
