@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // const AdvancedInjectionPlugin = require('advanced-injection-plugin');
 const {
   AdvancedInjectionPlugin,
@@ -9,7 +9,7 @@ const {
   Css,
   AsyncCss,
   InlineJs,
-} = require('../');
+} = require('..');
 
 const compiler = webpack({
   mode: 'development', // This is for debug/test purpose
@@ -33,20 +33,14 @@ const compiler = webpack({
       },
       {
         test: /vender\.css$/,
-        use: ExtractTextPlugin.extract({
-          // fallback: 'style-loader',
-          use: [{
-            loader: 'css-loader',
-            options: {
-              minimize: false, // for debug/test
-            },
-          }],
-        }),
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
     ],
   },
   plugins: [
-    new ExtractTextPlugin('vender.css'),
+    new MiniCssExtractPlugin({
+      filename: 'vender.css',
+    }),
     new HtmlWebpackPlugin({
       inject: false, // Make sure to turn off default injection
       minify: false, // This is for debug/test purpose, turn it on in production
