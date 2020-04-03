@@ -11,17 +11,17 @@
   "author": "b1f6c1c4 <b1f6c1c4@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "he": "^1.1.1",
-    "lodash": "^4.17.4"
+    "he": "^1.2.0",
+    "lodash": "^4.17.15"
   },
   "peerDependencies": {
-    "html-webpack-plugin": "^3.0.0",
+    "html-webpack-plugin": "^4.0.0",
     "webpack": "^4.0.0"
   },
   "devDependencies": {
-    "eslint": "^4.18.1",
-    "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "^2.9.0",
-    "jest-cli": "^22.4.0"
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.2",
+    "jest-cli": "^25.2.7"
   }
 }
