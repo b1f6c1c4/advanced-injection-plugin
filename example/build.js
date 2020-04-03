@@ -46,7 +46,7 @@ const compiler = webpack({
       minify: false, // This is for debug/test purpose, turn it on in production
       template: 'src/index.html',
     }),
-    new AdvancedInjectionPlugin({
+    new AdvancedInjectionPlugin(HtmlWebpackPlugin, {
       rules: [{
         match: 'index.html', // RegExp /^index\.html$/ also works here
         head: [

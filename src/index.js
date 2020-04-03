@@ -10,7 +10,8 @@ const Prefetch = require('./Prefetch');
 const Preload = require('./Preload');
 
 class AdvancedInjectionPlugin {
-  constructor({ prefix, rules } = {}) {
+  constructor({ getHooks }, { prefix, rules } = {}) {
+    this.getHooks = getHooks;
     this.prefix = prefix;
     this.rules = rules || [];
   }
@@ -18,10 +19,9 @@ class AdvancedInjectionPlugin {
   apply(compiler) {
     compiler.hooks.afterPlugins.tap('PreloadPlugin', () => {
       compiler.hooks.thisCompilation.tap('PreloadPlugin', (compilation) => {
-        const proc = this.beforeHtmlProcessing.bind(this, compilation);
-        compiler.hooks.compilation.tap('HtmlWebpackPluginHooks', (hwp) => {
-          hwp.hooks.htmlWebpackPluginBeforeHtmlProcessing.tap('PreloadPlugin', proc);
-        });
+        const proc = this.beforeEmit.bind(this, compilation);
+        const hooks = this.getHooks(compilation);
+        hooks.beforeEmit.tap('PreloadPlugin', proc);
       });
     });
   }
@@ -37,7 +37,7 @@ class AdvancedInjectionPlugin {
   }
 
   // eslint-disable-next-line no-unused-vars
-  beforeHtmlProcessing(compilation, htmlPluginData) {
+  beforeEmit(compilation, htmlPluginData) {
     const { filename } = htmlPluginData.plugin.options;
     this.rules.forEach(({
       match: matchHtml,

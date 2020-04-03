@@ -8,7 +8,7 @@ This package helps you fully control the injection process for html-webpack-plug
 
 ## Pre-requisites
 
-This module requires webpack 4 and html-webpack-plugin 3.
+This module requires webpack 4 and html-webpack-plugin 4.
 
 ## Installation
 
